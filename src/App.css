@@ -1,5 +1,13 @@
+:root {
+  --bg-color: whitesmoke;
+}
+html, body {
+  height: 100%;
+  background-color: var(--bg-color);
+}
 .App {
   text-align: center;
+  
 }
 
 .App-logo {
@@ -22,10 +30,6 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-}
-
-.App-link {
-  color: #61dafb;
 }
 
 @keyframes App-logo-spin {
