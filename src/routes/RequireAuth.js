@@ -1,9 +1,10 @@
 import React from 'react'
-import {Navigate, useLocation, useLocation} from 'react-router-dom';
+import {Navigate, useLocation} from 'react-router-dom';
+import useAuth from '../auth/useAuth';
 
 function RequireAuth({children}) {
-    const {authed}=true;
-    const useLocation =useLocation();
+    const {authed}=useAuth();
+    const location =useLocation();
 
     return authed === true ? children : <Navigate to="/login" replace state={{path:location.pathname}}></Navigate>
 }

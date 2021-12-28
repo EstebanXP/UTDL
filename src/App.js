@@ -6,6 +6,7 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./components/Home";
 import NotFound from "./components/NotFound";
 import InitialPage from "./components/InitialPage";
+import RequireAuth from "./routes/RequireAuth";
 function App() {
   return (
     <div className="App">
@@ -15,11 +16,9 @@ function App() {
           <Route path="register" index element={<Signup />}></Route>
         </Route>
         
-        <Route path="/register" element={<Signup></Signup>}></Route>
-        <Route path="/home" element={<Home></Home>}>
-          {/* Si se añade una subruta, para poder verlo en otro componente se debe añadir el componente <Outlet> */}
-          <Route path=":prueba" element={<Prueba></Prueba>}></Route>
-        </Route>
+        <Route path="/home" element={<RequireAuth><Home /></RequireAuth>}></Route>
+        
+        <Route path="*" element={<NotFound></NotFound>}></Route>
       </Routes>
     </div>
   );
