@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import "../css/Login.css";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import useAuthExample from "../auth/useAuthExample";
 //import db from '../firebase/firebase';
 
 function Login() {
   //method variables
   const navigate = useNavigate();
   const { state } = useLocation();
+  const [authUser,setAuthUser] = useAuthExample();
   //States
   const [email,setEmail] = useState();
   const [password,setPassword] = useState();
@@ -20,6 +22,13 @@ function Login() {
   
   const firebaseLogin =() => {
 
+  }
+
+  const prueba = () =>{
+    console.log(authUser);
+  }
+
+  const prueba2 = () => {
   }
 
   useEffect(()=>{
@@ -37,6 +46,7 @@ function Login() {
         <input type="password" name="password"></input>
         <button type="submit">Log in</button>
       </form>
+      <button onClick={setAuthUser}>AAA</button>
       <br></br>
       <br></br>
       <NavLink to="/">Back to home</NavLink>

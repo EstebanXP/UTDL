@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
-import auth from '../firebase/firebase' 
-import { createUserWithEmailAndPassword } from "firebase/auth";
-
+import { useNavigate, NavLink, useLocation } from "react-router-dom";
+import app from '../firebase/firebase'
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import useAuth from '../auth/useAuth'
+import useAuthExample from '../auth/useAuthExample';
 
 function Signup() {
   //method variables
-
+  const auth = getAuth(app);
+  const {auth1,login,logout} = useAuth();
+  const {state} = useLocation();
+  const navigate = useNavigate();
+  const [authUser,setAuthUser] = useAuthExample();
   //states
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -20,17 +25,33 @@ function Signup() {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
+        console.log("Entro");
+        alert(user + "asr");
+
+       login()
+         .then(()=>{
+          navigate("/home");
+        })
+         .catch(()=>{
+          console.log("Errir");
+         });
         // ...
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        alert(errorCode+errorMessage);
+        alert("Entro un error, no se cual");
         // ..
       });
   };
 
-  useEffect(() => {}, []);
+  const prueba = () =>{
+    console.log(authUser);
+  }
+
+  useEffect(() => {
+
+  }, []);
   return (
     <div className="SignUpContainer">
       <h1>Glad you're in</h1>
@@ -46,6 +67,8 @@ function Signup() {
         <br></br>
         <button type="submit">Sign Up</button>
       </form>
+      <button onClick={()=>prueba()}>prueba</button>
+      <button onClick={setAuthUser}>AAA</button>
       <br></br>
       <br></br>
       <NavLink to="/">Back to home</NavLink>
