@@ -16,7 +16,9 @@ function App() {
           <Route path="register" index element={<Signup />}></Route>
         </Route>
         
-        <Route path="/home" element={<RequireAuth><Home /></RequireAuth>}></Route>
+        <Route path="/home" element={<RequireAuth><Home /></RequireAuth>}>
+          
+        </Route>
         
         <Route path="*" element={<NotFound></NotFound>}></Route>
       </Routes>
