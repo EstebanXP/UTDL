@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Outlet } from "react-router-dom";
-import InitialNav from "./InitialNav";
+import InitialNav from "../components/InitialNav";
 
 function InitialPage() {
   return (
