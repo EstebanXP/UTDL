@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Button, Modal, Toast } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
-import { doc, setDoc } from "firebase/firestore";
+import { collection, addDoc, Timestamp, doc } from "firebase/firestore";
 import db from "../firebase/firebase";
 import "../css/AddButton.css";
+import { useContext } from "react";
+import UserContext from "../context/UserContext";
 
 function AddItem() {
   //method variables
+  const {user,setUser}=useContext(UserContext); //UserID
   const tostadaAlert = Swal.mixin({
     toast: true,
     position: "top-end",
-    timerProgressBar: true,
     timer: 3500,
     timerProgressBar: true,
   });
@@ -40,29 +42,29 @@ function AddItem() {
   };
 
   const handleSubmit = async () => {
-    await setDoc(doc(db, "Tasks","A"), {
+    await addDoc(collection(db, "Users/"+user+"/Tasks"), {
       taskTitle: task.taskTitle,
-    }).then(() => {
-      handleClose();
-      tostadaAlert.fire({
-        icon: "succes",
-        title: "Task Saved Succesfully",
-      })
-       .catch((error)=>{
-        handleClose();   
+      taskDate: Timestamp.fromDate(new Date(task.taskDate)),
+      taskDescription: task.taskDescription,
+    })
+      .then(() => {
+        handleClose();
         tostadaAlert.fire({
-            icon: "error",
-            title: "Something went wrong, please try again :c"
-        })
+          icon: "success",
+          title: "Task Saved Succesfully",
+        });
+      })
+      .catch((error) => {
+        handleClose();
+        tostadaAlert.fire({
+          icon: "error",
+          title: "Something went wrong, please try again :(",
+        });
         console.log(error);
-       })
-      ;
-    });
+      });
   };
 
-  useEffect(() => {
-    console.log(task);
-  }, [task]);
+  useEffect(() => {}, [task]);
 
   return (
     <div>

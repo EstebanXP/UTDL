@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, NavLink, useLocation } from "react-router-dom";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import useAuth from "../auth/useAuth";
 import db from "../firebase/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import Swal from "sweetalert2";
+import UserContext from "../context/UserContext";
 
 function Signup() {
   //method variables
   const auth = getAuth();
   const { auth1, login, logout } = useAuth();
   const navigate = useNavigate();
+  const {user, setUser}=useContext(UserContext);
   //states
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -19,46 +21,48 @@ function Signup() {
 
   //functions
   const validEmail = (email) => {
-    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email)
-  }
+    var re =
+      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if(validEmail(email)){
+    if (validEmail(email)) {
       await createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log("Entro");
-        console.log(user);
-        setDoc(doc(db, "Users", user.uid), {
-          userName: name,
-          userPhoneNumber: phoneNumber,
-          userEmail: email,
-        });
-        login()
-          .then(() => {
-            navigate("/home");
-          })
-          .catch(() => {
-            console.log("Errir");
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log("Entro");
+          console.log(user);
+          setUser(user.uid);
+          setDoc(doc(db, "Users", user.uid), {
+            userName: name,
+            userPhoneNumber: phoneNumber,
+            userEmail: email,
           });
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        console.log(errorCode);
-        switch (errorCode) {
-          case "auth/weak-password":
-            Swal.fire({
-              title: "Error!",
-              text: "Hey, your password must be 6 characters long",
-              icon: "error",
-              confirmButtonText: "Ok",
+          login()
+            .then(() => {
+              navigate("/home");
+            })
+            .catch(() => {
+              console.log("Error");
             });
-            break;
-          case "auth/email-already-in-use":
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          console.log(errorCode);
+          switch (errorCode) {
+            case "auth/weak-password":
+              Swal.fire({
+                title: "Error!",
+                text: "Hey, your password must be 6 characters long, please try again :(",
+                icon: "error",
+                confirmButtonText: "Ok",
+              });
+              break;
+            case "auth/email-already-in-use":
               Swal.fire({
                 title: "Error!",
                 text: "Hey, the email is already in use, try other email or log in",
@@ -66,18 +70,18 @@ function Signup() {
                 confirmButtonText: "Ok",
               });
               break;
-          default:
-            Swal.fire({
-              title: "Error!",
-              text: "Something has happened, please try again later",
-              icon: "error",
-              confirmButtonText: "Ok",
-            });
-            break;
-        }
-        // ..
-      });
-    }else{
+            default:
+              Swal.fire({
+                title: "Error!",
+                text: "Something went wrong, please try again later :(",
+                icon: "error",
+                confirmButtonText: "Ok",
+              });
+              break;
+          }
+          // ..
+        });
+    } else {
       Swal.fire({
         title: "Error!",
         text: "Pleas check your email addres and rewrite it",
@@ -86,7 +90,6 @@ function Signup() {
       });
     }
   };
-
 
   useEffect(() => {}, []);
   return (

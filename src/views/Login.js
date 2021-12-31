@@ -4,6 +4,8 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { NavLink, useNavigate } from "react-router-dom";
 import useAuth from "../auth/useAuth";
 import Swal from "sweetalert2";
+import { useContext } from "react";
+import UserContext from "../context/UserContext";
 
 //import db from '../firebase/firebase';
 
@@ -12,6 +14,7 @@ function Login() {
   const navigate = useNavigate();
   const { auth1, login, logout } = useAuth();
   const auth = getAuth();
+  const {user, setUser}=useContext(UserContext);
   //States
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -23,6 +26,7 @@ function Login() {
         // Signed in
         const user = userCredential.user;
         console.log(user);
+        setUser(user.uid);
         // ...
         login()
           .then(() => {
