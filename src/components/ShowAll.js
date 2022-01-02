@@ -5,6 +5,7 @@ import db from "../firebase/firebase";
 import { useContext } from "react";
 import UserContext from "../context/UserContext";
 import { useState } from "react";
+import TaskItem from "./TaskItem";
 
 function ShowAll() {
   //method variables
@@ -18,7 +19,7 @@ function ShowAll() {
     const tasksSnapshot = onSnapshot(tasks, (querySnapshot) => {
       const localTasks = [];
       querySnapshot.forEach((doc) => {
-        localTasks.push(doc.data());
+        localTasks.push({ ...doc.data(), id: doc.id });
       });
       setTasks(localTasks);
     });
@@ -28,12 +29,9 @@ function ShowAll() {
   return (
     <div>
       {tasks.map((tarea) => {
-        console.log(tarea)  
         return (
-          <div>
-            <li>{tarea.taskTitle}</li>
-            <li> {Date(tarea.taskDate)} </li>
-            <li>{tarea.taskDescription}</li>
+          <div key={tarea.id}>
+            <TaskItem tarea={tarea}></TaskItem>
             <br></br>
           </div>
         );
@@ -43,3 +41,17 @@ function ShowAll() {
 }
 
 export default ShowAll;
+/**
+ 
+  <div className="d-flex justify-content-center">
+              <TaskItemHeader title={tarea.taskTitle}></TaskItemHeader>
+              <button onClick={() => setDescription(!description)}>A</button>
+            </div>
+            {description ? (
+              <TaskItemBody
+                description={tarea.taskDescription}
+                date={tarea.taskDate}
+              ></TaskItemBody>
+            ) : null}
+   * 
+   */

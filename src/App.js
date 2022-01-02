@@ -1,7 +1,6 @@
 import "./App.css";
 import Login from "./views/Login";
 import Signup from "./views/Signup";
-import Prueba from "./views/Prueba";
 import { Route, Routes } from "react-router-dom";
 import Home from "./views/Home";
 import NotFound from "./views/NotFound";
@@ -10,6 +9,7 @@ import RequireAuth from "./routes/RequireAuth";
 import { useState } from "react";
 import UserContext from "./context/UserContext";
 import ShowAll from "./components/ShowAll";
+
 function App() {
   const [user, setUser] = useState(null);
 
