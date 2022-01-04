@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
-import { collection, addDoc, Timestamp, doc } from "firebase/firestore";
+import { collection, addDoc, Timestamp} from "firebase/firestore";
 import db from "../firebase/firebase";
 import "../css/AddButton.css";
 import { useContext } from "react";

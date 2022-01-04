@@ -1,7 +1,19 @@
+
+.botonArrow {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+}
+
+.taskBody{
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
 .taskHeader {
     
 }
 
-.taskBody{
-    
-}

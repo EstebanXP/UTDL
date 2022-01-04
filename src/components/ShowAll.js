@@ -1,5 +1,5 @@
 import React from "react";
-import { collection, query, where, onSnapshot } from "firebase/firestore";
+import { collection, query,  onSnapshot } from "firebase/firestore";
 import { useEffect } from "react";
 import db from "../firebase/firebase";
 import { useContext } from "react";
