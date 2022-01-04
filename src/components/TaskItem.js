@@ -31,23 +31,122 @@ function TaskItem(props) {
   });
 
   //functions
-  const dateYearConverter = () => {
-    let year = new Date(props.tarea.taskDate.seconds * 1000).getFullYear();
-    return year;
+  const returnMonth = () => {
+    const month = props.tarea.taskDate.toDate().getMonth();
+    switch (month) {
+      case 0:
+        return "01";
+      case 1:
+        return "02";
+      case 2:
+        return "03";
+      case 3:
+        return "04";
+      case 4:
+        return "05";
+      case 5:
+        return "06";
+      case 6:
+        return "07";
+      case 7:
+        return "08";
+      case 8:
+        return "09";
+      case 9:
+        return "10";
+      case 10:
+        return "11";
+      case 11:
+        return "12";
+      default:
+        return month;
+    }
   };
 
-  const dateMonthConverter = () => {
-    let month = new Date(props.tarea.taskDate.seconds * 1000).getMonth();
-    return month;
+  const returnDay = () => {
+    const day = props.tarea.taskDate.toDate().getDate();
+    switch (day) {
+      case 1:
+        return "01";
+      case 2:
+        return "02";
+      case 3:
+        return "03";
+      case 4:
+        return "04";
+      case 5:
+        return "05";
+      case 6:
+        return "06";
+      case 7:
+        return "07";
+      case 8:
+        return "08";
+      case 9:
+        return "09";
+      default:
+        return day;
+    }
   };
 
-  const dateDayConverter = () => {
-    let day = new Date(props.tarea.taskDate.seconds * 1000).getDay();
-    return day;
+  const returnHours = () => {
+    const hour = props.tarea.taskDate.toDate().getHours();
+    switch (hour) {
+      case 1:
+        return "01";
+      case 2:
+        return "02";
+      case 3:
+        return "03";
+      case 4:
+        return "04";
+      case 5:
+        return "05";
+      case 6:
+        return "06";
+      case 7:
+        return "07";
+      case 8:
+        return "08";
+      case 9:
+        return "09";
+      default:
+        return hour;
+    }
   };
 
-  const editTask = (taskid) => {
-    console.log(taskid);
+  const returnMinutes = () => {
+    const minute = props.tarea.taskDate.toDate().getMinutes();
+    switch (minute) {
+      case 1:
+        return "01";
+      case 2:
+        return "02";
+      case 3:
+        return "03";
+      case 4:
+        return "04";
+      case 5:
+        return "05";
+      case 6:
+        return "06";
+      case 7:
+        return "07";
+      case 8:
+        return "08";
+      case 9:
+        return "09";
+      default:
+        return minute;
+    }
+  };
+
+  const prueba = () => {
+    console.log(
+      `${props.tarea.taskDate
+        .toDate()
+        .getFullYear()}-${returnMonth()}-${returnDay()}T19:30`
+    );
   };
 
   const handleOpen = () => {
@@ -130,6 +229,11 @@ function TaskItem(props) {
               className="taskDate"
               name="taskDate"
               onChange={handleInputChange}
+              defaultValue={
+                `${props.tarea.taskDate
+                  .toDate()
+                  .getFullYear()}-${returnMonth()}-${returnDay()}T${returnHours()}:${returnMinutes()}` /*props.tarea.taskDate.toDate().toLocaleTimeString("en-US")*/
+              }
             ></input>
             <h1>Task description</h1>
             <textarea
@@ -177,7 +281,13 @@ function TaskItem(props) {
         {description ? (
           <div className="taskBody card">
             <h2>{props.tarea.taskDescription}</h2>
-            <h2>{dateDayConverter()+" "+dateMonthConverter()+" "+dateYearConverter()}</h2>
+            <h2>
+              {
+                `${props.tarea.taskDate
+                  .toDate()
+                  .getFullYear()}-${returnMonth()}-${returnDay()}   ${returnHours()}:${returnMinutes()}`
+              }
+            </h2>
           </div>
         ) : null}
       </div>
@@ -186,6 +296,7 @@ function TaskItem(props) {
           variant="outline-primary"
           onClick={() => {
             handleOpen();
+            returnMinutes();
           }}
         >
           Edit Task
