@@ -1,6 +1,6 @@
 import Button from "react-bootstrap/Button";
 import React, { useContext, useEffect, useState } from "react";
-import { doc, deleteDoc } from "firebase/firestore";
+import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import db from "../firebase/firebase";
 import "../css/TaskItem.css";
 import UserContext from "../context/UserContext";
@@ -29,6 +29,10 @@ function TaskItem(props) {
     taskDate: "",
     taskDescription: "",
   });
+
+  const [taskTitle, setTaskTitle] = useState("");
+  const [taskDate, setTaskDate] = useState("");
+  const [taskDescription, setTaskDescription] = useState("");
 
   //functions
   const returnMonth = () => {
@@ -149,6 +153,10 @@ function TaskItem(props) {
     );
   };
 
+  const handleTaskTitle = (event) => {
+    setTaskTitle({ taskTitle: event.target.value });
+  };
+
   const handleOpen = () => {
     setShow(true);
   };
@@ -182,7 +190,7 @@ function TaskItem(props) {
   };
 
   const handleSubmit = async () => {
-    await addDoc(collection(db, "Users/" + user + "/Tasks"), {
+    await updateDoc(doc(db, "Users/" + user + "/Tasks", props.tarea.id), {
       taskTitle: task.taskTitle,
       taskDate: Timestamp.fromDate(new Date(task.taskDate)),
       taskDescription: task.taskDescription,
@@ -205,8 +213,8 @@ function TaskItem(props) {
   };
 
   useEffect(() => {
-    console.log(task.taskTitle);
-  }, [task]);
+    
+  }, []);
   return (
     <div>
       <div className="modal">
@@ -219,26 +227,28 @@ function TaskItem(props) {
             <input
               className="taskTitle"
               name="taskTitle"
+              id="taskTitle"
               onChange={handleInputChange}
               defaultValue={props.tarea.taskTitle}
             ></input>
+            {console.log(taskTitle)}
             <br></br>
-            <h1>Task date</h1>
+            <h1>Task Date</h1>
             <input
               type="datetime-local"
               className="taskDate"
               name="taskDate"
+              id="taskDate"
               onChange={handleInputChange}
-              defaultValue={
-                `${props.tarea.taskDate
-                  .toDate()
-                  .getFullYear()}-${returnMonth()}-${returnDay()}T${returnHours()}:${returnMinutes()}` /*props.tarea.taskDate.toDate().toLocaleTimeString("en-US")*/
-              }
+              defaultValue={`${props.tarea.taskDate
+                .toDate()
+                .getFullYear()}-${returnMonth()}-${returnDay()}T${returnHours()}:${returnMinutes()}`}
             ></input>
             <h1>Task description</h1>
             <textarea
               className="taskDescription"
               name="taskDescription"
+              id="taskDescription"
               onChange={handleInputChange}
               defaultValue={props.tarea.taskDescription}
             ></textarea>
@@ -282,11 +292,9 @@ function TaskItem(props) {
           <div className="taskBody card">
             <h2>{props.tarea.taskDescription}</h2>
             <h2>
-              {
-                `${props.tarea.taskDate
-                  .toDate()
-                  .getFullYear()}-${returnMonth()}-${returnDay()}   ${returnHours()}:${returnMinutes()}`
-              }
+              {`${props.tarea.taskDate
+                .toDate()
+                .getFullYear()}-${returnMonth()}-${returnDay()}   ${returnHours()}:${returnMinutes()}`}
             </h2>
           </div>
         ) : null}

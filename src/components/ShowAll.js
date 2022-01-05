@@ -31,7 +31,7 @@ function ShowAll() {
       {tasks.map((tarea) => {
         return (
           <div key={tarea.id}>
-            <TaskItem tarea={tarea}></TaskItem>
+            <TaskItem tarea={tarea} ></TaskItem>
             <br></br>
           </div>
         );

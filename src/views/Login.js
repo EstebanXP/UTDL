@@ -38,7 +38,6 @@ function Login() {
       })
       .catch((error) => {
         const errorCode = error.code;
-        console.log(errorCode);
         switch (errorCode) {
           case 'auth/wrong-password':
             Swal.fire({
@@ -69,8 +68,6 @@ function Login() {
   };
 
   useEffect(() => {
-    console.log(email);
-    console.log(password);
   }, [email, password]);
 
   return (
