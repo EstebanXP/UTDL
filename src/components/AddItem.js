@@ -107,7 +107,7 @@ function AddItem() {
         </Modal>
       </div>
       <div className="botonAdd">
-        <Button variant="outline-primary" onClick={() => handleOpen()}>
+        <Button variant="outline-warning" size="lg" onClick={() => handleOpen()}>
           +
         </Button>
       </div>

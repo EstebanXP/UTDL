@@ -9,6 +9,7 @@ import RequireAuth from "./routes/RequireAuth";
 import { useState } from "react";
 import UserContext from "./context/UserContext";
 import ShowAll from "./components/ShowAll";
+import MyNotes from "./components/MyNotes";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -31,6 +32,7 @@ function App() {
             }
           >
             <Route path="all" element={<ShowAll></ShowAll>}></Route>
+            <Route path="notes" element={<MyNotes></MyNotes>}></Route>
           </Route>
           <Route path="*" element={<NotFound></NotFound>}></Route>
         </Routes>

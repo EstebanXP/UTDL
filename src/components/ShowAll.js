@@ -41,17 +41,3 @@ function ShowAll() {
 }
 
 export default ShowAll;
-/**
- 
-  <div className="d-flex justify-content-center">
-              <TaskItemHeader title={tarea.taskTitle}></TaskItemHeader>
-              <button onClick={() => setDescription(!description)}>A</button>
-            </div>
-            {description ? (
-              <TaskItemBody
-                description={tarea.taskDescription}
-                date={tarea.taskDate}
-              ></TaskItemBody>
-            ) : null}
-   * 
-   */
