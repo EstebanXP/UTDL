@@ -32,10 +32,12 @@ function TaskItem(props) {
   //functions
   const returnMonth = () => {
     const month = props.tarea.taskDate.toDate().getMonth();
-    if(month<12){
+    if(month<10){
       return `0${month+1}`
+    }else{
+      return month;
     }
-    return month;
+    
   };
 
   const returnDay = () => {
@@ -205,9 +207,9 @@ function TaskItem(props) {
           <div className="taskBody card">
             <h2>{props.tarea.taskDescription}</h2>
             <h2>
-              {`${props.tarea.taskDate
+              {`This has to be done before ${props.tarea.taskDate
                 .toDate()
-                .getFullYear()}-${returnMonth()}-${returnDay()}   ${returnHours()}:${returnMinutes()}`}
+                .getFullYear()}-${returnMonth()}-${returnDay()} at ${returnHours()}:${returnMinutes()}`}
             </h2>
           </div>
         ) : null}
@@ -223,6 +225,7 @@ function TaskItem(props) {
         </Button>
         <Button
           variant="outline-danger"
+          className="botonAceptar"
           onClick={() => deleteTask(props.tarea.id)}
         >
           Delete Task

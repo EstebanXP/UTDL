@@ -1,10 +1,11 @@
-import React from "react";
-import { Nav, Navbar } from "react-bootstrap";
-import { NavLink, Outlet } from "react-router-dom";
+import { getAuth} from "firebase/auth";
+import React, { } from "react";
+import { Outlet } from "react-router-dom";
 import AddItem from "../components/AddItem";
 import HomeNav from "../components/HomeNav";
 
 const Home = () => {
+
   return (
     <div>
       <HomeNav />

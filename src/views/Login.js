@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../css/Login.css";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { NavLink, useNavigate } from "react-router-dom";
 import useAuth from "../auth/useAuth";
 import Swal from "sweetalert2";
@@ -68,7 +68,15 @@ function Login() {
   };
 
   useEffect(() => {
-  }, [email, password]);
+    const auth= getAuth();
+    onAuthStateChanged(auth,(user)=>{
+      if(user) {
+        console.log(user);
+      }else{
+        console.log("bruh");
+      }
+    })
+  }, [])
 
   return (
     <div className="LoginContainer">

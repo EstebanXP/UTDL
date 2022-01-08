@@ -8,6 +8,10 @@
     outline: none;
 }
 
+.botonAceptar {
+    background-color: #198754;
+}
+
 .taskBody{
     margin-left: 15%;
     margin-right: 15%;

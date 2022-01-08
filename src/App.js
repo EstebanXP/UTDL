@@ -6,34 +6,36 @@ import Home from "./views/Home";
 import NotFound from "./views/NotFound";
 import InitialPage from "./views/InitialPage";
 import RequireAuth from "./routes/RequireAuth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UserContext from "./context/UserContext";
 import ShowAll from "./components/ShowAll";
 import MyNotes from "./components/MyNotes";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 function App() {
   const [user, setUser] = useState(null);
+  const [userAuth, setUserAuth] = useState(null);
 
   return (
     <div className="App">
       <UserContext.Provider value={{ user, setUser }}>
         <Routes>
           <Route path="/" element={<InitialPage />}>
-            <Route path=":login" index element={<Login />}></Route>
-            <Route path="register" index element={<Signup />}></Route>
+            <Route path=":login" index element={<Login authObj={{userAuth,setUserAuth}} />}></Route>
+            <Route path="register" index element={<Signup authObj={{userAuth,setUserAuth}} />}></Route>
           </Route>
-          <Route
-            path="/home"
-            element={
-              <RequireAuth>
-                {" "}
-                <Home />{" "}
-              </RequireAuth>
-            }
-          >
-            <Route path="all" element={<ShowAll></ShowAll>}></Route>
-            <Route path="notes" element={<MyNotes></MyNotes>}></Route>
-          </Route>
+            <Route
+              path="/home"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <Home authObj={{userAuth,setUserAuth}}/>{" "}
+                </RequireAuth>
+              }
+            >
+              <Route path="all" element={<ShowAll></ShowAll>}></Route>
+              <Route path="notes" element={<MyNotes></MyNotes>}></Route>
+            </Route>
           <Route path="*" element={<NotFound></NotFound>}></Route>
         </Routes>
       </UserContext.Provider>

@@ -7,19 +7,17 @@ function HomeNav() {
   return (
     <nav className="navHome">
       <ul className="list">
-        <li className="item">
-          <NavLink to="/home/all">
-            {" "}
-            <Button variant="light" size="lg">
+        <li>
+          <div className="itemContainer">
+            <NavLink to="/home/all" className="item">
+              {" "}
               My Tasks
-            </Button>
-          </NavLink>
+            </NavLink>
+          </div>
         </li>
-        <li className="item">
-          <NavLink to="/home/notes">
-            <Button variant="light" size="lg">
-              My Notes
-            </Button>
+        <li>
+          <NavLink to="/home/notes" className="item">
+            My Notes
           </NavLink>
         </li>
       </ul>

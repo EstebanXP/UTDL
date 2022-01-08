@@ -7,7 +7,7 @@
 
 .list {
     list-style-type: none;
-    background: honeydew;
+    background: rgb(253, 253, 0);
     height: 100%;
     display: flex;
     justify-content: center;
@@ -18,9 +18,21 @@
 .item {
     margin-right: 20px;
     font-size: 20px;
+    color: #000000;
     text-transform: uppercase;
-    color: #f1f1f1;
     cursor: pointer;
+    text-decoration: none;
+}
+
+.item:hover {
+    color: #5a5a5a;
+}
+
+.itemContainer:hover{
+}
+
+.customBtn {
+    background-color: transparent;
 }
 /*
 .btn {

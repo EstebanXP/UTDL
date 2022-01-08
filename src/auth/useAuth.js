@@ -1,9 +1,21 @@
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import * as React from "react";
 
 const authContext = React.createContext();
 
 function useAuth() {
   const [authed, setAuthed] = React.useState(false);
+  const auth=getAuth()
+
+  React.useEffect(() => {
+    onAuthStateChanged(auth,(user)=>{
+      if(user){
+        setAuthed(true);
+      }else{
+        setAuthed(false);
+      }
+    })
+  })
 
   return {
     authed,
