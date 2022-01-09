@@ -2,6 +2,7 @@ import Button from "react-bootstrap/Button";
 import React, { useContext, useEffect, useState } from "react";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import db from "../firebase/firebase";
+import classNames from "classnames";
 import "../css/TaskItem.css";
 import UserContext from "../context/UserContext";
 import { Timestamp } from "firebase/firestore";
@@ -10,6 +11,10 @@ import { Modal } from "react-bootstrap";
 
 function TaskItem(props) {
   //variables
+  const divGreenColor = {
+    color: "f1f1",
+  };
+  const dateNow = new Date();
 
   //method variables
   const { user, setUser } = useContext(UserContext); //UserID
@@ -28,38 +33,41 @@ function TaskItem(props) {
   const [taskTitle, setTaskTitle] = useState("");
   const [taskDesc, setTaskDesc] = useState("");
   const [taskDate, setTaskDate] = useState("");
+  const [isGreen, setIsGreen] = useState(false);
+  const [isYellow, setIsYellow] = useState(false);
+  const [isRed, setIsRed] = useState(false);
+  const [isBlack, setIsBlack] = useState(false);
 
   //functions
   const returnMonth = () => {
     const month = props.tarea.taskDate.toDate().getMonth();
-    if(month<10){
-      return `0${month+1}`
-    }else{
+    if (month < 10) {
+      return `0${month + 1}`;
+    } else {
       return month;
     }
-    
   };
 
   const returnDay = () => {
     const day = props.tarea.taskDate.toDate().getDate();
-    if(day<10){
-      return `0${day+1}`
+    if (day < 10) {
+      return `0${day + 1}`;
     }
     return day;
   };
 
   const returnHours = () => {
     const hour = props.tarea.taskDate.toDate().getHours();
-    if(hour<10){
-      return `0${hour+1}`
+    if (hour < 10) {
+      return `0${hour + 1}`;
     }
     return hour;
   };
 
   const returnMinutes = () => {
     const minute = props.tarea.taskDate.toDate().getMinutes();
-    if(minute<10){
-      return `0${minute+1}`
+    if (minute < 10) {
+      return `0${minute + 1}`;
     }
     return minute;
   };
@@ -132,6 +140,35 @@ function TaskItem(props) {
         .toDate()
         .getFullYear()}-${returnMonth()}-${returnDay()}T${returnHours()}:${returnMinutes()}`
     );
+    
+
+    if(Math.round((props.tarea.taskDate.toDate() - dateNow) / 86400000) <= 0){
+      setIsBlack(true);
+      setIsRed(false);
+      setIsGreen(false);
+      setIsYellow(false);
+    }else if (
+      Math.round((props.tarea.taskDate.toDate() - dateNow) / 86400000) > 0 &&
+      Math.round((props.tarea.taskDate.toDate() - dateNow) / 86400000) < 3
+    ) {
+      setIsRed(true);
+      setIsGreen(false);
+      setIsYellow(false);
+      setIsBlack(false);
+    } else if (
+      Math.round((props.tarea.taskDate.toDate() - dateNow) / 86400000) >= 3 &&
+      Math.round((props.tarea.taskDate.toDate() - dateNow) / 86400000) < 5
+    ) {
+      setIsYellow(true);
+      setIsRed(false);
+      setIsGreen(false);
+      setIsBlack(false);
+    } else {
+      setIsGreen(true);
+      setIsYellow(false);
+      setIsRed(false);
+      setIsBlack(false);
+    }
   }, []);
   return (
     <div>
@@ -143,7 +180,7 @@ function TaskItem(props) {
           <Modal.Body>
             <h1>Task title </h1>
             <input
-              className="taskTitle"
+              className="taskTitle "
               name="taskTitle"
               id="taskTitle"
               onChange={onChangeTitle}
@@ -180,7 +217,14 @@ function TaskItem(props) {
         </Modal>
       </div>
 
-      <div className="taskHeader d-flex justify-content-center">
+      <div
+        className={classNames("taskHeader", {
+          "taskHeader-green": isGreen,
+          "taskHeader-yellow": isYellow,
+          "taskHeader-red": isRed,
+          "taskHeader-black": isBlack,
+        })}
+      >
         <h1>{props.tarea.taskTitle}</h1>
         {/*Inicio boton de flecha */}
         <button
