@@ -1,9 +1,7 @@
-
-.cartaContainer {
+.signupContainer {
     width: 45%;
-    justify-content: left;
-} 
-.title {
+    margin-left: 2.5%;
+    justify-content: center;
 }
 
 .cartaInside {

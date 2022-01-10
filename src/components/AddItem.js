@@ -49,6 +49,13 @@ function AddItem() {
     return task.taskTitle.length;
   };
 
+  const isDateNull = () => {
+    if(task.taskDate===""){
+      return true;
+    }
+    return false;
+  }
+
   const handleSubmit = async () => {
     if (inputEmpty()) {
       tostadaAlert.fire({
@@ -61,7 +68,15 @@ function AddItem() {
         title: "Is a title, not a description",
         text: "Add a shorter title!",
       });
-    } else {
+    } else if(isDateNull()){
+      tostadaAlert.fire({
+        icon: "error",
+        title: "There is no Date",
+        text: "Add a date to your task, also you can create a note!",
+      });
+    } 
+    
+    else {
       await addDoc(collection(db, "Users/" + user + "/Tasks"), {
         taskTitle: task.taskTitle,
         taskDate: Timestamp.fromDate(new Date(task.taskDate)),
@@ -120,15 +135,17 @@ function AddItem() {
               onChange={handleInputChange}
             ></FormControl>
           </Modal.Body>
-          <Modal.Footer>
-            <Button
-              variant="secondary"
-              onClick={() => handleSubmit()}
-              type="submit"
-            >
-              Accept
-            </Button>
-          </Modal.Footer>
+          <div className="footer">
+            <Modal.Footer>
+              <Button
+                variant="primary"
+                onClick={() => handleSubmit()}
+                type="submit"
+              >
+                Accept
+              </Button>
+            </Modal.Footer>
+          </div>
         </Modal>
       </div>
       <div className="botonAdd">

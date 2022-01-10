@@ -14,7 +14,7 @@
   margin-right: 15%;
 }
 
-.botonBorrar{
+.botonBorrar {
   background-color: #198754;
 }
 
@@ -33,23 +33,29 @@
 }
 
 .taskHeaderText {
-   text-overflow: ellipsis;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    line-clamp: 1;
-    -webkit-box-orient: vertical; 
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.footer {
+  justify-content: center;
+  align-items: center;
+  display: flex;
 }
 
 .taskFooter {
   padding-top: 15px;
 }
 
-.taskFooter .botonEditar{
+.taskFooter .botonEditar {
   margin-right: 1.25%;
 }
 
-.taskFooter .botonBorrar{
+.taskFooter .botonBorrar {
   margin-left: 1.25%;
 }
 

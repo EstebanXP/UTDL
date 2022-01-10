@@ -90,6 +90,13 @@ function TaskItem(props) {
     setTaskDate(event.target.value);
   };
 
+  const isDateNull = () => {
+    if(taskDate===""){
+      return true;
+    }
+    return false;
+  }
+
   const deleteTask = async (taskid) => {
     await Swal.fire({
       title: "Are you sure?",
@@ -102,7 +109,11 @@ function TaskItem(props) {
     }).then((result) => {
       if (result.isConfirmed) {
         deleteDoc(doc(db, "Users/" + user + "/Tasks", taskid));
-        Swal.fire("Deleted!", "Your task has been deleted.", "success");
+        tostadaAlert.fire({
+          icon: "success",
+          title: "Deleted",
+          text: "Your task has been deleted."
+        });
       }
     });
   };
@@ -126,6 +137,12 @@ function TaskItem(props) {
         icon: "error",
         title: "Is a title, not a description",
         text: "Add a shorter title!",
+      });
+    } else if(isDateNull()){
+      tostadaAlert.fire({
+        icon: "error",
+        title: "There is no Date",
+        text: "Add a date to your task!",
       });
     } else {
       await updateDoc(doc(db, "Users/" + user + "/Tasks", props.tarea.id), {
@@ -249,16 +266,17 @@ function TaskItem(props) {
               onChange={onChangeDesc}
             ></FormControl>
           </Modal.Body>
+          <div className="footer">
           <Modal.Footer>
             <Button
-              variant="secondary"
+              variant="primary"
               onClick={() => handleSubmit()}
               type="submit"
             >
               Accept
             </Button>
-            <button onClick={() => console.log(inputTooLong())}>AAA</button>
           </Modal.Footer>
+          </div>
         </Modal>
       </div>
 
@@ -315,14 +333,14 @@ function TaskItem(props) {
             handleOpen();
           }}
         >
-          Edit task
+          Edit
         </Button>
         <Button
           variant="danger"
           className="botonBorrar"
           onClick={() => deleteTask(props.tarea.id)}
         >
-          Delete task
+          Delete 
         </Button>
       </div>
       <hr className="linea"></hr>

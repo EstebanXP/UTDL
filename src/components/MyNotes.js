@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import NoteItem from "../components/NoteItem";
+import AddNoteButton from "./AddNoteButton";
 
 function MyNotes() {
   const [states, setStates] = useState([
@@ -8,6 +9,19 @@ function MyNotes() {
     "aeeeee",
     "pqpqpqpqq",
     "asdasd",
+    "adewaewewadawddadwda",
+    "adewaewewadawddadwda",
+    "adewaewewadawddadwda",
+    "adewaewewadawddadwda",
+    "adewaewewadawddadwda",
+    "adewaewewadawddadwda",
+    "adewaewewadawddadwda",
+    "adewaewewadawddadwda",
+    "adewaewewadawddadwda",
+    "adewaewewadawddadwda",
+    "adewaewewadawddadwda",
+    "adewaewewadawddadwda",
+    
   ]);
 
   return (
@@ -16,6 +30,7 @@ function MyNotes() {
       {states.map((item) => {
         return <NoteItem item={item}></NoteItem>;
       })}
+      <AddNoteButton></AddNoteButton>
     </div>
   );
 }

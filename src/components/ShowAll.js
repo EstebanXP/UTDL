@@ -6,6 +6,7 @@ import { useContext } from "react";
 import UserContext from "../context/UserContext";
 import { useState } from "react";
 import TaskItem from "./TaskItem";
+import AddItem from "./AddItem";
 
 function ShowAll() {
   //method variables
@@ -38,6 +39,7 @@ function ShowAll() {
           </div>
         );
       })}
+      <AddItem></AddItem>
     </div>
   );
 }

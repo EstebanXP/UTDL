@@ -85,30 +85,36 @@ function Login() {
 
   return (
     <div className="LoginContainer">
-      <h1 className="title">Welcome!</h1>
       <div className="cartaContainer card">
-        <form onSubmit={handleSubmit} className="loginForm">
-          <h2>Accout</h2>
-          <FormControl
-            type="email"
-            name="email"
-            placeholder="example@example.example"
-            onChange={(event) => {
-              setEmail(event.target.value);
-            }}
-          ></FormControl>
-          <h2>Password</h2>
-          <FormControl
-            type="password"
-            name="password"
-            onChange={(event) => {
-              setPassword(event.target.value);
-            }}
-            required
-          ></FormControl>
-          <br></br>
-          <Button type="submit">Log In</Button>
-        </form>
+        <h1 className="title">Welcome!</h1>
+        <div className="cartaInside">
+          <form onSubmit={handleSubmit} className="loginForm">
+            <h2>Email</h2>
+            <FormControl
+              className="email"
+              type="email"
+              name="email"
+              size="lg"
+              placeholder="example@example.example"
+              onChange={(event) => {
+                setEmail(event.target.value);
+              }}
+            ></FormControl>
+            <h2>Password</h2>
+            <FormControl
+              className="password"
+              type="password"
+              name="password"
+              size="lg"
+              onChange={(event) => {
+                setPassword(event.target.value);
+              }}
+              required
+            ></FormControl>
+            <br></br>
+            <Button type="submit">Log In</Button>
+          </form>
+        </div>
       </div>
       <br></br>
       <br></br>

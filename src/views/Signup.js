@@ -7,6 +7,7 @@ import { doc, setDoc } from "firebase/firestore";
 import Swal from "sweetalert2";
 import UserContext from "../context/UserContext";
 import { Button, FormControl } from "react-bootstrap";
+import "../css/Signup.css";
 
 function Signup() {
   //method variables
@@ -98,45 +99,49 @@ function Signup() {
   useEffect(() => {}, []);
   return (
     <div className="SignUpContainer">
+      <div className="signupContainer card">
       <h1>Glad you're in</h1>
-      <form className="signupForm" onSubmit={handleSubmit}>
-        <h2>Full Name</h2>
-        <FormControl
-          type="text"
-          name="name"
-          placeholder="Alan Smithee"
-          onChange={(event) => {
-            setName(event.target.value);
-          }}
-        ></FormControl>
-        <h2>Accout</h2>
-        <FormControl
-          type="email"
-          name="email"
-          placeholder="example@example.example"
-          onChange={(event) => {
-            setEmail(event.target.value);
-          }}
-        ></FormControl>
-        <h2>Password</h2>
-        <FormControl
-          type="password"
-          name="password"
-          onChange={(event) => {
-            setPassword(event.target.value);
-          }}
-        ></FormControl>
-        <h2>Phone Number</h2>
-        <FormControl
-          type="text"
-          name="phoneNumber"
-          onChange={(event) => {
-            setPhoneNumber(event.target.value);
-          }}
-        ></FormControl>
-        <br></br>
-        <Button type="submit">Sign up</Button>
-      </form>
+        <div className="cartaInside">
+          <form className="signupForm" onSubmit={handleSubmit}>
+            <h2>Full Name</h2>
+            <FormControl
+              type="text"
+              name="name"
+              placeholder="Alan Smithee"
+              onChange={(event) => {
+                setName(event.target.value);
+              }}
+            ></FormControl>
+            <h2>Accout</h2>
+            <FormControl
+              type="email"
+              name="email"
+              placeholder="example@example.example"
+              onChange={(event) => {
+                setEmail(event.target.value);
+              }}
+            ></FormControl>
+            <h2>Password</h2>
+            <FormControl
+              type="password"
+              name="password"
+              onChange={(event) => {
+                setPassword(event.target.value);
+              }}
+            ></FormControl>
+            <h2>Phone Number</h2>
+            <FormControl
+              type="text"
+              name="phoneNumber"
+              onChange={(event) => {
+                setPhoneNumber(event.target.value);
+              }}
+            ></FormControl>
+            <br></br>
+            <Button type="submit">Sign up</Button>
+          </form>
+        </div>
+      </div>
       <br></br>
       <br></br>
       <NavLink to="/">go back home</NavLink>

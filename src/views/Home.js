@@ -1,20 +1,20 @@
-import { getAuth} from "firebase/auth";
-import React, { } from "react";
+import { getAuth } from "firebase/auth";
+import React from "react";
 import { Outlet } from "react-router-dom";
 import AddItem from "../components/AddItem";
 import HomeNav from "../components/HomeNav";
+import "../css/Home.css";
 
 const Home = () => {
-
   return (
-    <div>
+    <div className="home">
       <HomeNav />
-        <div className="botonAdd">
-          <AddItem></AddItem>
-        </div>
-        <div>
-          <Outlet></Outlet>
-        </div>
+      <div className="botonAdd">
+        
+      </div>
+      <div>
+        <Outlet></Outlet>
+      </div>
     </div>
   );
 };
