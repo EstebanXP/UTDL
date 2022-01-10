@@ -6,11 +6,10 @@ import Home from "./views/Home";
 import NotFound from "./views/NotFound";
 import InitialPage from "./views/InitialPage";
 import RequireAuth from "./routes/RequireAuth";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import UserContext from "./context/UserContext";
 import ShowAll from "./components/ShowAll";
 import MyNotes from "./components/MyNotes";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 function App() {
   const [user, setUser] = useState(null);

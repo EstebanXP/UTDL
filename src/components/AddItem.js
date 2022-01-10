@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Button, FormControl, Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
-import { collection, addDoc, Timestamp} from "firebase/firestore";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
 import db from "../firebase/firebase";
 import "../css/AddButton.css";
 import { useContext } from "react";
@@ -9,7 +9,7 @@ import UserContext from "../context/UserContext";
 
 function AddItem() {
   //method variables
-  const {user,setUser}=useContext(UserContext); //UserID
+  const { user, setUser } = useContext(UserContext); //UserID
   const tostadaAlert = Swal.mixin({
     toast: true,
     position: "top-end",
@@ -41,30 +41,51 @@ function AddItem() {
     });
   };
 
-  const handleSubmit = async () => {
-    await addDoc(collection(db, "Users/"+user+"/Tasks"), {
-      taskTitle: task.taskTitle,
-      taskDate: Timestamp.fromDate(new Date(task.taskDate)),
-      taskDescription: task.taskDescription,
-    })
-      .then(() => {
-        handleClose();
-        tostadaAlert.fire({
-          icon: "success",
-          title: "Task Saved Succesfully",
-        });
-      })
-      .catch((error) => {
-        handleClose();
-        tostadaAlert.fire({
-          icon: "error",
-          title: "Something went wrong, please try again :(",
-        });
-        console.log(error);
-      });
+  const inputEmpty = () => {
+    return !task.taskTitle.trim().length;
   };
 
-  useEffect(() => {}, [task]);
+  const inputTooLong = () => {
+    return task.taskTitle.length;
+  };
+
+  const handleSubmit = async () => {
+    if (inputEmpty()) {
+      tostadaAlert.fire({
+        icon: "error",
+        title: "Task Must Have a Title",
+      });
+    } else if (inputTooLong() > 50) {
+      tostadaAlert.fire({
+        icon: "error",
+        title: "Is a title, not a description",
+        text: "Add a shorter title!",
+      });
+    } else {
+      await addDoc(collection(db, "Users/" + user + "/Tasks"), {
+        taskTitle: task.taskTitle,
+        taskDate: Timestamp.fromDate(new Date(task.taskDate)),
+        taskDescription: task.taskDescription,
+      })
+        .then(() => {
+          handleClose();
+          tostadaAlert.fire({
+            icon: "success",
+            title: "Task Saved Succesfully",
+          });
+          setTask({ taskTitle: "", taskDate: "", taskDescription: "" });
+        })
+        .catch((error) => {
+          handleClose();
+          tostadaAlert.fire({
+            icon: "error",
+            title: "Something went wrong, please try again :(",
+          });
+        });
+    }
+  };
+
+  useEffect(() => {}, []);
 
   return (
     <div>
@@ -75,11 +96,12 @@ function AddItem() {
           </Modal.Header>
           <Modal.Body>
             <h1>Task title</h1>
-            <input
+            <FormControl
               className="taskTitle"
               name="taskTitle"
               onChange={handleInputChange}
-            ></input>
+              required
+            ></FormControl>
             <br></br>
             <h1>Task date</h1>
             <input
@@ -88,12 +110,15 @@ function AddItem() {
               name="taskDate"
               onChange={handleInputChange}
             ></input>
+            <br></br>
+            <br></br>
             <h1>Task description</h1>
-            <textarea
+            <FormControl
+              as="textarea"
               className="taskDescription"
               name="taskDescription"
               onChange={handleInputChange}
-            ></textarea>
+            ></FormControl>
           </Modal.Body>
           <Modal.Footer>
             <Button
@@ -107,7 +132,7 @@ function AddItem() {
         </Modal>
       </div>
       <div className="botonAdd">
-        <Button variant="outline-warning" size="lg" onClick={() => handleOpen()}>
+        <Button variant="warning" size="lg" onClick={() => handleOpen()}>
           +
         </Button>
       </div>

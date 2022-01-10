@@ -4,3 +4,7 @@
     right: 20px;
     font-size: 100%;
 }
+
+.taskDescription{
+    resize: none;
+}

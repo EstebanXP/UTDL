@@ -7,13 +7,10 @@ import "../css/TaskItem.css";
 import UserContext from "../context/UserContext";
 import { Timestamp } from "firebase/firestore";
 import Swal from "sweetalert2";
-import { Modal } from "react-bootstrap";
+import { FormControl, Modal } from "react-bootstrap";
 
 function TaskItem(props) {
   //variables
-  const divGreenColor = {
-    color: "f1f1",
-  };
   const dateNow = new Date();
 
   //method variables
@@ -37,6 +34,7 @@ function TaskItem(props) {
   const [isYellow, setIsYellow] = useState(false);
   const [isRed, setIsRed] = useState(false);
   const [isBlack, setIsBlack] = useState(false);
+  const [status, setStatus] = useState(0);
 
   //functions
   const returnMonth = () => {
@@ -104,32 +102,71 @@ function TaskItem(props) {
     }).then((result) => {
       if (result.isConfirmed) {
         deleteDoc(doc(db, "Users/" + user + "/Tasks", taskid));
-        Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        Swal.fire("Deleted!", "Your task has been deleted.", "success");
       }
     });
   };
 
+  const inputTooLong = () => {
+    return taskTitle.length;
+  };
+
+  const inputEmpty = () => {
+    return !taskTitle.trim().length;
+  };
+
   const handleSubmit = async () => {
-    await updateDoc(doc(db, "Users/" + user + "/Tasks", props.tarea.id), {
-      taskTitle: taskTitle,
-      taskDate: Timestamp.fromDate(new Date(taskDate)),
-      taskDescription: taskDesc,
-    })
-      .then(() => {
-        handleClose();
-        tostadaAlert.fire({
-          icon: "success",
-          title: "Task Saved Succesfully",
-        });
-      })
-      .catch((error) => {
-        handleClose();
-        tostadaAlert.fire({
-          icon: "error",
-          title: "Something went wrong, please try again :(",
-        });
-        console.log(error);
+    if (inputEmpty()) {
+      tostadaAlert.fire({
+        icon: "error",
+        title: "Task Must Have a Title",
       });
+    } else if (inputTooLong() > 50) {
+      tostadaAlert.fire({
+        icon: "error",
+        title: "Is a title, not a description",
+        text: "Add a shorter title!",
+      });
+    } else {
+      await updateDoc(doc(db, "Users/" + user + "/Tasks", props.tarea.id), {
+        taskTitle: taskTitle,
+        taskDate: Timestamp.fromDate(new Date(taskDate)),
+        taskDescription: taskDesc,
+      })
+        .then(() => {
+          handleClose();
+          tostadaAlert.fire({
+            icon: "success",
+            title: "Task Saved Succesfully",
+          });
+          setTaskTitle("");
+          setTaskDate("");
+          setTaskDesc("");
+        })
+        .catch((error) => {
+          handleClose();
+          tostadaAlert.fire({
+            icon: "error",
+            title: "Something went wrong, please try again :(",
+          });
+          console.log(error);
+        });
+    }
+  };
+
+  const returnStatus = () => {
+    switch (status) {
+      case 0:
+        return "Delayed";
+      case 1:
+        return "Critical";
+      case 2:
+        return "Time to work on";
+      case 3:
+        return "On time";
+      default:
+        return "Status";
+    }
   };
 
   useEffect(() => {
@@ -140,14 +177,14 @@ function TaskItem(props) {
         .toDate()
         .getFullYear()}-${returnMonth()}-${returnDay()}T${returnHours()}:${returnMinutes()}`
     );
-    
 
-    if(Math.round((props.tarea.taskDate.toDate() - dateNow) / 86400000) <= 0){
+    if (Math.round((props.tarea.taskDate.toDate() - dateNow) / 86400000) <= 0) {
       setIsBlack(true);
       setIsRed(false);
       setIsGreen(false);
       setIsYellow(false);
-    }else if (
+      setStatus(0);
+    } else if (
       Math.round((props.tarea.taskDate.toDate() - dateNow) / 86400000) > 0 &&
       Math.round((props.tarea.taskDate.toDate() - dateNow) / 86400000) < 3
     ) {
@@ -155,6 +192,7 @@ function TaskItem(props) {
       setIsGreen(false);
       setIsYellow(false);
       setIsBlack(false);
+      setStatus(1);
     } else if (
       Math.round((props.tarea.taskDate.toDate() - dateNow) / 86400000) >= 3 &&
       Math.round((props.tarea.taskDate.toDate() - dateNow) / 86400000) < 5
@@ -163,13 +201,16 @@ function TaskItem(props) {
       setIsRed(false);
       setIsGreen(false);
       setIsBlack(false);
+      setStatus(2);
     } else {
       setIsGreen(true);
       setIsYellow(false);
       setIsRed(false);
       setIsBlack(false);
+      setStatus(3);
     }
   }, []);
+
   return (
     <div>
       <div className="modal">
@@ -179,15 +220,15 @@ function TaskItem(props) {
           </Modal.Header>
           <Modal.Body>
             <h1>Task title </h1>
-            <input
+            <FormControl
               className="taskTitle "
               name="taskTitle"
               id="taskTitle"
               onChange={onChangeTitle}
               value={taskTitle}
-            ></input>
+            ></FormControl>
             <br></br>
-            <h1>Task Date</h1>
+            <h1>Task date</h1>
             <input
               type="datetime-local"
               className="taskDate"
@@ -196,14 +237,17 @@ function TaskItem(props) {
               value={taskDate}
               onChange={onChangeDate}
             ></input>
+            <br></br>
+            <br></br>
             <h1>Task description</h1>
-            <textarea
+            <FormControl
               className="taskDescription"
               name="taskDescription"
               id="taskDescription"
               value={taskDesc}
+              as="textarea"
               onChange={onChangeDesc}
-            ></textarea>
+            ></FormControl>
           </Modal.Body>
           <Modal.Footer>
             <Button
@@ -213,6 +257,7 @@ function TaskItem(props) {
             >
               Accept
             </Button>
+            <button onClick={() => console.log(inputTooLong())}>AAA</button>
           </Modal.Footer>
         </Modal>
       </div>
@@ -225,7 +270,9 @@ function TaskItem(props) {
           "taskHeader-black": isBlack,
         })}
       >
-        <h1>{props.tarea.taskTitle}</h1>
+        <div className="taskHeaderText">
+          <h1>{props.tarea.taskTitle}</h1>
+        </div>
         {/*Inicio boton de flecha */}
         <button
           onClick={() => {
@@ -255,26 +302,31 @@ function TaskItem(props) {
                 .toDate()
                 .getFullYear()}-${returnMonth()}-${returnDay()} at ${returnHours()}:${returnMinutes()}`}
             </h2>
+            <h2>{`Status: ${returnStatus()}`}</h2>
           </div>
         ) : null}
       </div>
       <div className="taskFooter">
+        {/***Inicio footer botones de editar y borrar */}
         <Button
-          variant="outline-primary"
+          variant="primary"
+          className="botonEditar"
           onClick={() => {
             handleOpen();
           }}
         >
-          Edit Task
+          Edit task
         </Button>
         <Button
-          variant="outline-danger"
-          className="botonAceptar"
+          variant="danger"
+          className="botonBorrar"
           onClick={() => deleteTask(props.tarea.id)}
         >
-          Delete Task
+          Delete task
         </Button>
       </div>
+      <hr className="linea"></hr>
+      {/***Fin footer botones de editar y borrar */}
     </div>
   );
 }
