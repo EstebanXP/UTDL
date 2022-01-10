@@ -1,39 +1,40 @@
- .navHome {
-    position:static;
-    top:0;
-    width: 100%;
-    background-color: rgb(16, 17, 12);
+.navHome {
+  position: static;
+  top: 0;
+  width: 100%;
+  background-color: rgb(16, 17, 12);
 }
 
 .list {
-    list-style-type: none;
-    background: rgb(253, 253, 0);
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
+  list-style-type: none;
+  background: rgb(253, 253, 0);
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }
 
 .item {
-    margin-right: 20px;
-    font-size: 20px;
-    color: #000000;
-    text-transform: uppercase;
-    cursor: pointer;
-    text-decoration: none;
+  margin-right: 20px;
+  font-size: 20px;
+  color: #000000;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .item:hover {
-    color: #5a5a5a;
+  color: #5a5a5a;
 }
 
-.itemContainer:hover{
+.itemContainer:hover {
 }
 
 .customBtn {
-    background-color: transparent;
+  background-color: transparent;
 }
+
 /*
 .btn {
     display: none;

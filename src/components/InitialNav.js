@@ -1,13 +1,24 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
-import '../css/InitialNav.css';
+import React from "react";
+import { NavLink } from "react-router-dom";
+import "../css/InitialNav.css";
 
 function InitialNav() {
-    return (
-        <nav>
-            <h2><NavLink to="/login"><button>Log In</button></NavLink>|<NavLink to="/register"><button>Sign Up</button></NavLink></h2>
-        </nav>
-    )
+  return (
+    <nav className="navInitial">
+      <ul className="list">
+        <li>
+          <div className="itemContainer">
+            <NavLink to="/login" className="item">Log In</NavLink>
+          </div>
+        </li>
+        <li>
+          <div className="itemContainer">
+            <NavLink to="/register" className="item">Sign Up</NavLink>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  );
 }
 
-export default InitialNav
+export default InitialNav;

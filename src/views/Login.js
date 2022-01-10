@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "../css/Login.css";
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { NavLink, useNavigate } from "react-router-dom";
 import useAuth from "../auth/useAuth";
 import Swal from "sweetalert2";
 import { useContext } from "react";
 import UserContext from "../context/UserContext";
+import { Button, FormControl } from "react-bootstrap";
 
 //import db from '../firebase/firebase';
 
@@ -14,7 +19,7 @@ function Login() {
   const navigate = useNavigate();
   const { auth1, login, logout } = useAuth();
   const auth = getAuth();
-  const {user, setUser}=useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   //States
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -39,7 +44,7 @@ function Login() {
       .catch((error) => {
         const errorCode = error.code;
         switch (errorCode) {
-          case 'auth/wrong-password':
+          case "auth/wrong-password":
             Swal.fire({
               title: "Error!",
               text: "Wrong Password or email, please check them.",
@@ -47,7 +52,7 @@ function Login() {
               confirmButtonText: "Ok",
             });
             break;
-          case 'auth/too-many-requests':
+          case "auth/too-many-requests":
             Swal.fire({
               title: "Error!",
               text: "Hey, you're trying to get it but you failed too many times. Wait a moment and check your email and password.",
@@ -68,42 +73,46 @@ function Login() {
   };
 
   useEffect(() => {
-    const auth= getAuth();
-    onAuthStateChanged(auth,(user)=>{
-      if(user) {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
         console.log(user);
-      }else{
+      } else {
         console.log("bruh");
       }
-    })
-  }, [])
+    });
+  }, []);
 
   return (
     <div className="LoginContainer">
-      <h1>Welcome!</h1>
-      <form onSubmit={handleSubmit} className="loginForm">
-        <h2>Accout</h2>
-        <input
-          type="email"
-          name="email"
-          onChange={(event) => {
-            setEmail(event.target.value);
-          }}
-        ></input>
-        <h2>Password</h2>
-        <input
-          type="password"
-          name="password"
-          onChange={(event) => {
-            setPassword(event.target.value);
-          }}
-        ></input>
-        <br></br>
-        <button type="submit">Log in</button>
-      </form>
+      <h1 className="title">Welcome!</h1>
+      <div className="cartaContainer card">
+        <form onSubmit={handleSubmit} className="loginForm">
+          <h2>Accout</h2>
+          <FormControl
+            type="email"
+            name="email"
+            placeholder="example@example.example"
+            onChange={(event) => {
+              setEmail(event.target.value);
+            }}
+          ></FormControl>
+          <h2>Password</h2>
+          <FormControl
+            type="password"
+            name="password"
+            onChange={(event) => {
+              setPassword(event.target.value);
+            }}
+            required
+          ></FormControl>
+          <br></br>
+          <Button type="submit">Log In</Button>
+        </form>
+      </div>
       <br></br>
       <br></br>
-      <NavLink to="/">Back to home</NavLink>
+      <NavLink to="/">Go back home</NavLink>
     </div>
   );
 }

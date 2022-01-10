@@ -6,13 +6,14 @@ import db from "../firebase/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import Swal from "sweetalert2";
 import UserContext from "../context/UserContext";
+import { Button, FormControl } from "react-bootstrap";
 
 function Signup() {
   //method variables
   const auth = getAuth();
   const { auth1, login, logout } = useAuth();
   const navigate = useNavigate();
-  const {user, setUser}=useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   //states
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -52,9 +53,9 @@ function Signup() {
         })
         .catch((error) => {
           const errorCode = error.code;
-          console.log(errorCode);
           switch (errorCode) {
             case "auth/weak-password":
+              //Error password too short, must be 6 characters or more long you useless
               Swal.fire({
                 title: "Error!",
                 text: "Hey, your password must be 6 characters long, please try again :(",
@@ -63,6 +64,7 @@ function Signup() {
               });
               break;
             case "auth/email-already-in-use":
+              //Error email already in use you dumb ass
               Swal.fire({
                 title: "Error!",
                 text: "Hey, the email is already in use, try other email or log in",
@@ -71,6 +73,7 @@ function Signup() {
               });
               break;
             default:
+              //Default error, not even i know what is happening
               Swal.fire({
                 title: "Error!",
                 text: "Something went wrong, please try again later :(",
@@ -83,6 +86,7 @@ function Signup() {
         });
     } else {
       Swal.fire({
+        //Error wrong email or password
         title: "Error!",
         text: "Pleas check your email addres and rewrite it",
         icon: "error",
@@ -97,45 +101,45 @@ function Signup() {
       <h1>Glad you're in</h1>
       <form className="signupForm" onSubmit={handleSubmit}>
         <h2>Full Name</h2>
-        <input
+        <FormControl
           type="text"
           name="name"
           placeholder="Alan Smithee"
           onChange={(event) => {
             setName(event.target.value);
           }}
-        ></input>
+        ></FormControl>
         <h2>Accout</h2>
-        <input
+        <FormControl
           type="email"
           name="email"
           placeholder="example@example.example"
           onChange={(event) => {
             setEmail(event.target.value);
           }}
-        ></input>
+        ></FormControl>
         <h2>Password</h2>
-        <input
+        <FormControl
           type="password"
           name="password"
           onChange={(event) => {
             setPassword(event.target.value);
           }}
-        ></input>
+        ></FormControl>
         <h2>Phone Number</h2>
-        <input
+        <FormControl
           type="text"
           name="phoneNumber"
           onChange={(event) => {
             setPhoneNumber(event.target.value);
           }}
-        ></input>
+        ></FormControl>
         <br></br>
-        <button type="submit">Sign Up</button>
+        <Button type="submit">Sign up</Button>
       </form>
       <br></br>
       <br></br>
-      <NavLink to="/">Back to home</NavLink>
+      <NavLink to="/">go back home</NavLink>
     </div>
   );
 }
