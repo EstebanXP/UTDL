@@ -1,0 +1,24 @@
+.botonArrow {
+  background-color: transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+  margin-right: 0.5%;
+  border-radius: 2.5px;
+}
+
+.noteHeader {
+  justify-content: center;
+  margin-left: 15%;
+  margin-right: 15%;
+  display: flex;
+  border-radius: 15px;
+}
+
+.description {
+  margin-left: 15%;
+  margin-right: 15%;
+  border-radius: 25%;
+}

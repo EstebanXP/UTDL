@@ -1,34 +1,31 @@
-import React, { useState } from "react";
+import { collection, onSnapshot, query } from "firebase/firestore";
+import React, { useContext, useEffect, useState } from "react";
 import NoteItem from "../components/NoteItem";
+import UserContext from "../context/UserContext";
+import db from "../firebase/firebase";
 import AddNoteButton from "./AddNoteButton";
 
 function MyNotes() {
-  const [states, setStates] = useState([
-    "asdasd",
-    "asaaa",
-    "aeeeee",
-    "pqpqpqpqq",
-    "asdasd",
-    "adewaewewadawddadwda",
-    "adewaewewadawddadwda",
-    "adewaewewadawddadwda",
-    "adewaewewadawddadwda",
-    "adewaewewadawddadwda",
-    "adewaewewadawddadwda",
-    "adewaewewadawddadwda",
-    "adewaewewadawddadwda",
-    "adewaewewadawddadwda",
-    "adewaewewadawddadwda",
-    "adewaewewadawddadwda",
-    "adewaewewadawddadwda",
-    
-  ]);
+  const { user, setUser } = useContext(UserContext); //UserID
+
+  const [notes, setNotes] = useState([]);
+
+  useEffect(() => {
+    const notes = query(collection(db, "Users/" + user + "/Notes"));
+    const notesSnapshot = onSnapshot(notes, (querySnapshot) => {
+      const localNotes = [];
+      querySnapshot.forEach((doc) => {
+        localNotes.push({ ...doc.data(), id: doc.id });
+      });
+      setNotes(localNotes);
+    });
+    return () => notesSnapshot();
+  }, []);
 
   return (
     <div>
-      hola mundo
-      {states.map((item) => {
-        return <NoteItem item={item}></NoteItem>;
+      {notes.map((note) => {
+        return <NoteItem note={note}></NoteItem>;
       })}
       <AddNoteButton></AddNoteButton>
     </div>

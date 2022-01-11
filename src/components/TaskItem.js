@@ -91,11 +91,11 @@ function TaskItem(props) {
   };
 
   const isDateNull = () => {
-    if(taskDate===""){
+    if (taskDate === "") {
       return true;
     }
     return false;
-  }
+  };
 
   const deleteTask = async (taskid) => {
     await Swal.fire({
@@ -112,7 +112,7 @@ function TaskItem(props) {
         tostadaAlert.fire({
           icon: "success",
           title: "Deleted",
-          text: "Your task has been deleted."
+          text: "Your task has been deleted.",
         });
       }
     });
@@ -138,7 +138,7 @@ function TaskItem(props) {
         title: "Is a title, not a description",
         text: "Add a shorter title!",
       });
-    } else if(isDateNull()){
+    } else if (isDateNull()) {
       tostadaAlert.fire({
         icon: "error",
         title: "There is no Date",
@@ -267,15 +267,15 @@ function TaskItem(props) {
             ></FormControl>
           </Modal.Body>
           <div className="footer">
-          <Modal.Footer>
-            <Button
-              variant="primary"
-              onClick={() => handleSubmit()}
-              type="submit"
-            >
-              Accept
-            </Button>
-          </Modal.Footer>
+            <Modal.Footer>
+              <Button
+                variant="primary"
+                onClick={() => handleSubmit()}
+                type="submit"
+              >
+                Accept
+              </Button>
+            </Modal.Footer>
           </div>
         </Modal>
       </div>
@@ -340,7 +340,7 @@ function TaskItem(props) {
           className="botonBorrar"
           onClick={() => deleteTask(props.tarea.id)}
         >
-          Delete 
+          Delete
         </Button>
       </div>
       <hr className="linea"></hr>
