@@ -231,9 +231,21 @@ function TaskItem(props) {
   return (
     <div>
       <div className="modal">
-        <Modal show={show} onHide={handleClose}>
+        <Modal
+          show={show}
+          onHide={handleClose}
+          onExiting={() => {
+            setTaskTitle(props.tarea.taskTitle);
+            setTaskDesc(props.tarea.taskDescription);
+            setTaskDate(
+              `${props.tarea.taskDate
+                .toDate()
+                .getFullYear()}-${returnMonth()}-${returnDay()}T${returnHours()}:${returnMinutes()}`
+            );
+          }}
+        >
           <Modal.Header closeButton>
-            <Modal.Title>Add a new remaining task</Modal.Title>
+            <Modal.Title>Edit your task</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <h1>Task title </h1>

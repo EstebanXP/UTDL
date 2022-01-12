@@ -25,7 +25,11 @@ function MyNotes() {
   return (
     <div>
       {notes.map((note) => {
-        return <NoteItem note={note}></NoteItem>;
+        return (
+          <div key={note.id}>
+            <NoteItem note={note}></NoteItem>
+          </div>
+        );
       })}
       <AddNoteButton></AddNoteButton>
     </div>

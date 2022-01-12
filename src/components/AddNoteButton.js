@@ -4,6 +4,7 @@ import { collection, addDoc } from "firebase/firestore";
 import db from "../firebase/firebase";
 import Swal from "sweetalert2";
 import UserContext from "../context/UserContext";
+import '../css/AddNoteButton.css';
 
 function AddNoteButton() {
   //method functions
@@ -61,8 +62,7 @@ function AddNoteButton() {
   }
 
   useEffect(() => {
-    console.log(note);
-  }, [note]);
+  }, []);
 
   return (
     <div>
